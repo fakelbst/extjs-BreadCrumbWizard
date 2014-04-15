@@ -87,6 +87,12 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                 },
                 items: [
                     {
+                        text: 'Previous',
+                        itemId: 'previousBtn',
+                        handler: me.onPrevious,
+                        scope: me
+                    },
+                    {
                         text: 'Next',
                         itemId: 'nextBtn',
                         handler: me.onNext,
@@ -155,6 +161,21 @@ Ext.define('Ext.ux.BreadCrumbWizard', {
                 nextBreadCrumbButton.toggle();
             } else {
                 me.fireEvent('submit', me, me.getSubmitData());
+            }
+        }
+    },
+    onPrevious: function() {
+        var me = this,
+            privateBreadCrumbButton,
+            currentIndex = me.currentIndex,
+            childViews = me.cardContainer.items,
+            currentView = childViews.getAt(currentIndex);
+
+        if (this.fireEvent('validate', me, currentView) !== false) {
+            if (currentIndex > 0 ) {
+                privateBreadCrumbButton = me.breadCrumbContainer.items.getAt(currentIndex - 1);
+                privateBreadCrumbButton.enable();
+                privateBreadCrumbButton.toggle();
             }
         }
     },
